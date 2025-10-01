@@ -1,72 +1,139 @@
-﻿< Grid Margin = "0" >
-    < !--Display-- >
-    < TextBox x: Name = "Display" Text = "0" FontSize = "36" HorizontalAlignment = "Stretch" VerticalAlignment = "Top" Height = "70" Margin = "10,10,10,0" IsReadOnly = "True" TextAlignment = "Right" BorderThickness = "0" Background = "#222" Foreground = "White" />
+﻿using System.Windows;
+using System.Windows.Controls;
 
-    < !--Calculator Buttons-- >
-    < Grid Margin = "10,90,10,10" >
-        < Grid.RowDefinitions >
-            < RowDefinition Height = "*" />
-            < RowDefinition Height = "*" />
-            < RowDefinition Height = "*" />
-            < RowDefinition Height = "*" />
-            < RowDefinition Height = "*" />
-            < RowDefinition Height = "*" />
-        </ Grid.RowDefinitions >
-        < Grid.ColumnDefinitions >
-            < ColumnDefinition Width = "*" />
-            < ColumnDefinition Width = "*" />
-            < ColumnDefinition Width = "*" />
-            < ColumnDefinition Width = "*" />
-            < ColumnDefinition Width = "*" />
-        </ Grid.ColumnDefinitions >
+namespace tugas2pv
+{
+    public partial class MainWindow : Window
+    {
+        private double lastNumber, result;
+        private SelectedOperator selectedOperator;
+        private bool operatorClicked = false;
 
-        < !--Row 0-- >
-        < Button Grid.Row = "0" Grid.Column = "0" Content = "2ⁿᵈ" />
-        < Button Grid.Row = "0" Grid.Column = "1" Content = "π" />
-        < Button Grid.Row = "0" Grid.Column = "2" Content = "e" />
-        < Button Grid.Row = "0" Grid.Column = "3" Content = "C" />
-        < Button Grid.Row = "0" Grid.Column = "4" Content = "⌫" />
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
 
-        < !--Row 1-- >
-        < Button Grid.Row = "1" Grid.Column = "0" Content = "x²" />
-        < Button Grid.Row = "1" Grid.Column = "1" Content = "⅟x" />
-        < Button Grid.Row = "1" Grid.Column = "2" Content = "|x|" />
-        < Button Grid.Row = "1" Grid.Column = "3" Content = "exp" />
-        < Button Grid.Row = "1" Grid.Column = "4" Content = "mod" />
+        private enum SelectedOperator
+        {
+            Addition,
+            Subtraction,
+            Multiplication,
+            Division
+        }
 
-        < !--Row 2-- >
-        < Button Grid.Row = "2" Grid.Column = "0" Content = "√x" />
-        < Button Grid.Row = "2" Grid.Column = "1" Content = "(" />
-        < Button Grid.Row = "2" Grid.Column = "2" Content = ")" />
-        < Button Grid.Row = "2" Grid.Column = "3" Content = "n!" />
-        < Button Grid.Row = "2" Grid.Column = "4" Content = "÷" />
+        private void Number_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
 
-        < !--Row 3-- >
-        < Button Grid.Row = "3" Grid.Column = "0" Content = "xʸ" />
-        < Button Grid.Row = "3" Grid.Column = "1" Content = "7" />
-        < Button Grid.Row = "3" Grid.Column = "2" Content = "8" />
-        < Button Grid.Row = "3" Grid.Column = "3" Content = "9" />
-        < Button Grid.Row = "3" Grid.Column = "4" Content = "×" />
+            if (DisplayText.Text == "0" || operatorClicked)
+            {
+                DisplayText.Text = button.Content.ToString();
+                operatorClicked = false;
+            }
+            else
+            {
+                DisplayText.Text += button.Content.ToString();
+            }
+        }
 
-        < !--Row 4-- >
-        < Button Grid.Row = "4" Grid.Column = "0" Content = "10ˣ" />
-        < Button Grid.Row = "4" Grid.Column = "1" Content = "4" />
-        < Button Grid.Row = "4" Grid.Column = "2" Content = "5" />
-        < Button Grid.Row = "4" Grid.Column = "3" Content = "6" />
-        < Button Grid.Row = "4" Grid.Column = "4" Content = "−" />
+        private void Operator_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
 
-        < !--Row 5-- >
-        < Button Grid.Row = "5" Grid.Column = "0" Content = "log" />
-        < Button Grid.Row = "5" Grid.Column = "1" Content = "1" />
-        < Button Grid.Row = "5" Grid.Column = "2" Content = "2" />
-        < Button Grid.Row = "5" Grid.Column = "3" Content = "3" />
-        < Button Grid.Row = "5" Grid.Column = "4" Content = "+" />
+            if (double.TryParse(DisplayText.Text, out lastNumber))
+            {
+                switch (button.Content.ToString())
+                {
+                    case "+":
+                        selectedOperator = SelectedOperator.Addition;
+                        break;
+                    case "-":
+                        selectedOperator = SelectedOperator.Subtraction;
+                        break;
+                    case "×":
+                        selectedOperator = SelectedOperator.Multiplication;
+                        break;
+                    case "/":
+                        selectedOperator = SelectedOperator.Division;
+                        break;
+                }
+                operatorClicked = true;
+            }
+        }
 
-        < !--Row 6-- >
-        < Button Grid.Row = "6" Grid.Column = "0" Content = "ln" />
-        < Button Grid.Row = "6" Grid.Column = "1" Content = "±" />
-        < Button Grid.Row = "6" Grid.Column = "2" Content = "0" />
-        < Button Grid.Row = "6" Grid.Column = "3" Content = "." />
-        < Button Grid.Row = "6" Grid.Column = "4" Content = "=" Background = "#2196F3" Foreground = "White" />
-    </ Grid >
-</ Grid >
+        private void Equals_Click(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(DisplayText.Text, out double newNumber))
+            {
+                switch (selectedOperator)
+                {
+                    case SelectedOperator.Addition:
+                        result = lastNumber + newNumber;
+                        break;
+                    case SelectedOperator.Subtraction:
+                        result = lastNumber - newNumber;
+                        break;
+                    case SelectedOperator.Multiplication:
+                        result = lastNumber * newNumber;
+                        break;
+                    case SelectedOperator.Division:
+                        if (newNumber != 0)
+                            result = lastNumber / newNumber;
+                        else
+                        {
+                            MessageBox.Show("Cannot divide by zero!", "Error");
+                            return;
+                        }
+                        break;
+                }
+                DisplayText.Text = result.ToString();
+            }
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = "0";
+            lastNumber = 0;
+            result = 0;
+            operatorClicked = false;
+        }
+
+        private void ClearEntry_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayText.Text = "0";
+            operatorClicked = false;
+        }
+
+        private void Decimal_Click(object sender, RoutedEventArgs e)
+        {
+            if (!DisplayText.Text.Contains("."))
+            {
+                DisplayText.Text += ".";
+            }
+        }
+
+        private void ChangeSign_Click(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(DisplayText.Text, out double number))
+            {
+                number = -number;
+                DisplayText.Text = number.ToString();
+            }
+        }
+
+        private void Backspace_Click(object sender, RoutedEventArgs e)
+        {
+            if (DisplayText.Text.Length > 1)
+            {
+                DisplayText.Text = DisplayText.Text.Substring(0, DisplayText.Text.Length - 1);
+            }
+            else
+            {
+                DisplayText.Text = "0";
+            }
+        }
+    }
+}

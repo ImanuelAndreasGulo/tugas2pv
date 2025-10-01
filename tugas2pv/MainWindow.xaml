@@ -5,23 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tugas2pv"
         mc:Ignorable="d"
-        Title="MainWindow" Height="584" Width="420">
-    <Grid Margin="0,0,0,-6">
+        Title="Calculator" Height="584" Width="420">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Button Content="3" HorizontalAlignment="Left" Height="77" Margin="233,382,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="6" HorizontalAlignment="Left" Height="77" Margin="233,287,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="1" HorizontalAlignment="Left" Height="77" Margin="46,382,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="2" HorizontalAlignment="Left" Height="77" Margin="138,382,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="x" HorizontalAlignment="Left" Height="77" Margin="332,83,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="+" HorizontalAlignment="Left" Height="77" Margin="332,286,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="=" HorizontalAlignment="Left" Height="77" Margin="332,382,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="/" HorizontalAlignment="Left" Height="77" Margin="233,83,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="-" HorizontalAlignment="Left" Height="77" Margin="332,180,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="9" HorizontalAlignment="Left" Height="77" Margin="233,180,0,0" VerticalAlignment="Top" Width="72" RenderTransformOrigin="0.548,0.378"/>
-        <Button Content="5" HorizontalAlignment="Left" Height="77" Margin="138,287,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="7" HorizontalAlignment="Left" Height="77" Margin="46,287,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="8" HorizontalAlignment="Left" Height="77" Margin="138,180,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="9" HorizontalAlignment="Left" Height="77" Margin="46,180,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="0" HorizontalAlignment="Left" Height="77" Margin="138,485,0,0" VerticalAlignment="Top" Width="72"/>
+        <TextBox x:Name="DisplayText" 
+                 Grid.Row="0" 
+                 Height="80" 
+                 FontSize="40" 
+                 TextAlignment="Right"
+                 VerticalContentAlignment="Center"
+                 IsReadOnly="True"
+                 Text="0"/>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="C" Grid.Row="0" Grid.Column="0" Margin="5" Click="Clear_Click"/>
+            <Button Content="CE" Grid.Row="0" Grid.Column="1" Margin="5" Click="ClearEntry_Click"/>
+            <Button Content="⌫" Grid.Row="0" Grid.Column="2" Margin="5" Click="Backspace_Click"/>
+            <Button Content="/" Grid.Row="0" Grid.Column="3" Margin="5" Click="Operator_Click"/>
+
+            <Button Content="7" Grid.Row="1" Grid.Column="0" Margin="5" Click="Number_Click"/>
+            <Button Content="8" Grid.Row="1" Grid.Column="1" Margin="5" Click="Number_Click"/>
+            <Button Content="9" Grid.Row="1" Grid.Column="2" Margin="5" Click="Number_Click"/>
+            <Button Content="×" Grid.Row="1" Grid.Column="3" Margin="5" Click="Operator_Click"/>
+
+            <Button Content="4" Grid.Row="2" Grid.Column="0" Margin="5" Click="Number_Click"/>
+            <Button Content="5" Grid.Row="2" Grid.Column="1" Margin="5" Click="Number_Click"/>
+            <Button Content="6" Grid.Row="2" Grid.Column="2" Margin="5" Click="Number_Click"/>
+            <Button Content="-" Grid.Row="2" Grid.Column="3" Margin="5" Click="Operator_Click"/>
+
+            <Button Content="1" Grid.Row="3" Grid.Column="0" Margin="5" Click="Number_Click"/>
+            <Button Content="2" Grid.Row="3" Grid.Column="1" Margin="5" Click="Number_Click"/>
+            <Button Content="3" Grid.Row="3" Grid.Column="2" Margin="5" Click="Number_Click"/>
+            <Button Content="+" Grid.Row="3" Grid.Column="3" Margin="5" Click="Operator_Click"/>
+
+            <Button Content="±" Grid.Row="4" Grid.Column="0" Margin="5" Click="ChangeSign_Click"/>
+            <Button Content="0" Grid.Row="4" Grid.Column="1" Margin="5" Click="Number_Click"/>
+            <Button Content="." Grid.Row="4" Grid.Column="2" Margin="5" Click="Decimal_Click"/>
+            <Button Content="=" Grid.Row="4" Grid.Column="3" Margin="5" Click="Equals_Click"/>
+        </Grid>
     </Grid>
 </Window>
